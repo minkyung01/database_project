@@ -68,7 +68,7 @@ CheckBoxPanel.add(Search_Button);
 JPanel ShowSelectedPanel = new JPanel();
 ShowSelectedPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 Emplabel.setFont(new Font("Dialog", Font.BOLD, 16));
-ShowSelectedEmp.setFont(new Font("Dialog", Font.BOLD, 16));
+ShowSelectedEmp.setFont(new Font("Dialog", Font.BOLD, 20));
 dShow = "";
 ShowSelectedPanel.add(Emplabel);
 ShowSelectedPanel.add(ShowSelectedEmp);
