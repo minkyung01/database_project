@@ -77,6 +77,7 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 		add(ShowVertical, BorderLayout.SOUTH);
 		
 		Show_Button.addActionListener(this);
+		Delete_Button.addActionListener(this);
 		
 		//기본 설정
 		setTitle("부동산 매물 DB [어쩔DB]");
@@ -107,10 +108,14 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 		
 		// ----------- 구현 ----------- //
 		
+		String t = ""; //table명
+		
 		if (count == 1) { //초기화 코드
 			me.remove(panel);
 			revalidate();
 		}
+		
+		// ----------- 확인 ----------- //
 		
 		if (e.getSource() == Show_Button) { //확인 버튼 눌렀을 때
 			Head.clear();
@@ -122,6 +127,7 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 				Head.add("구");
 				Head.add("동");
 				stmt = "SELECT * FROM DB2022_AREA";
+				t = "DB2022_AREA";
 			}
 			else if(Category.getSelectedItem().toString() == "매물") { //매물 테이블 보여주기
 				Head.add("Pid");
@@ -135,6 +141,7 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 				Head.add("building id");
 				Head.add("address");
 				stmt = "SELECT * FROM DB2022_SALE";
+				t = "DB2022_SALE";
 			}
 			else if(Category.getSelectedItem().toString() == "부동산") { //부동산 테이블 보여주기
 				Head.add("agency id");
@@ -143,6 +150,7 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 				Head.add("agency number");
 				Head.add("area id");
 				stmt = "SELECT * FROM DB2022_AGENCY";
+				t = "DB2022_AGENCY";
 			}
 			else if(Category.getSelectedItem().toString() == "건물") { //건물 테이블 보여주기
 				Head.add("building id");
@@ -150,12 +158,14 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 				Head.add("building type");
 				Head.add("area id");
 				stmt = "SELECT * FROM DB2022_BUILDING";
+				t = "DB2022_BUILDING";
 			}
 			else if(Category.getSelectedItem().toString() == "집주인") { //집주인 테이블 보여주기
 				Head.add("owner id");
 				Head.add("owner name");
 				Head.add("owner number");
 				stmt = "SELECT * FROM DB2022_OWNER";
+				t = "DB2022_OWNER";
 			}
 			
 			model = new DefaultTableModel(Head, 0);
@@ -194,6 +204,198 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 			panel = new JPanel();
 			ScPane = new JScrollPane(table);
 			table.getModel().addTableModelListener(new CheckBoxModelListener());
+			ScPane.setPreferredSize(new Dimension(650, 200));
+			panel.add(ScPane);
+			add(panel, BorderLayout.CENTER);
+			revalidate();
+		}
+		
+		// ----------- 삭제 ----------- //
+		
+		if(e.getSource() == Delete_Button) { //삭제 버튼 눌렀을 때
+			
+			if(Category.getSelectedItem().toString() == "지역") { //지역 테이블 삭제
+				Vector<String> delete_area_id = new Vector<String>();
+				
+				try {
+					String areaId = model.getColumnName(1);
+					
+					if(areaId == "area id") {
+						for(int i = 0; i < table.getRowCount(); i++) {
+							if(table.getValueAt(i, 0) == Boolean.TRUE) {
+								delete_area_id.add((String) table.getValueAt(i, 1));
+							}
+						}
+						
+						for(int i = 0; i < delete_area_id.size(); i++) {
+							for(int k = 0; k < model.getRowCount(); k++) {
+								if(table.getValueAt(k, 0) == Boolean.TRUE) {
+									model.removeRow(k);
+								}
+							}
+						}
+						
+						for(int i = 0; i < delete_area_id.size(); i++) {
+							String deleteStmt = "DELETE FROM DB2022_AREA WHERE area_id = ?";
+							PreparedStatement p = conn.prepareStatement(deleteStmt);
+							p.clearParameters();
+							p.setString(1, String.valueOf(delete_area_id.get(i)));
+							p.executeUpdate();
+						}
+					}
+		
+				} catch (SQLException e1) {
+				System.out.println("actionPerformed err : " + e1);
+				e1.printStackTrace();
+				}
+			}
+			
+			if(Category.getSelectedItem().toString() == "집주인") { //집주인 테이블 삭제
+				Vector<String> delete_owner_id = new Vector<String>();
+				
+				try {
+					String ownerId = model.getColumnName(1);
+					
+					if(ownerId == "owner id") {
+						for(int i = 0; i < table.getRowCount(); i++) {
+							if(table.getValueAt(i, 0) == Boolean.TRUE) {
+								delete_owner_id.add((String) table.getValueAt(i, 1));
+							}
+						}
+						
+						for(int i = 0; i < delete_owner_id.size(); i++) {
+							for(int k = 0; k < model.getRowCount(); k++) {
+								if(table.getValueAt(k, 0) == Boolean.TRUE) {
+									model.removeRow(k);
+								}
+							}
+						}
+						
+						for(int i = 0; i < delete_owner_id.size(); i++) {
+							String deleteStmt = "DELETE FROM DB2022_OWNER WHERE owner_id = ?";
+							PreparedStatement p = conn.prepareStatement(deleteStmt);
+							p.clearParameters();
+							p.setString(1, String.valueOf(delete_owner_id.get(i)));
+							p.executeUpdate();
+						}
+					}
+		
+				} catch (SQLException e1) {
+				System.out.println("actionPerformed err : " + e1);
+				e1.printStackTrace();
+				}
+			}
+			
+			if(Category.getSelectedItem().toString() == "부동산") { //부동산 테이블 삭제
+				Vector<String> delete_agency_id = new Vector<String>();
+				
+				try {
+					String agencyId = model.getColumnName(1);
+					
+					if(agencyId == "agency id") {
+						for(int i = 0; i < table.getRowCount(); i++) {
+							if(table.getValueAt(i, 0) == Boolean.TRUE) {
+								delete_agency_id.add((String) table.getValueAt(i, 1));
+							}
+						}
+						
+						for(int i = 0; i < delete_agency_id.size(); i++) {
+							for(int k = 0; k < model.getRowCount(); k++) {
+								if(table.getValueAt(k, 0) == Boolean.TRUE) {
+									model.removeRow(k);
+								}
+							}
+						}
+						
+						for(int i = 0; i < delete_agency_id.size(); i++) {
+							String deleteStmt = "DELETE FROM DB2022_AGENCY WHERE agency_id = ?";
+							PreparedStatement p = conn.prepareStatement(deleteStmt);
+							p.clearParameters();
+							p.setString(1, String.valueOf(delete_agency_id.get(i)));
+							p.executeUpdate();
+						}
+					}
+		
+				} catch (SQLException e1) {
+				System.out.println("actionPerformed err : " + e1);
+				e1.printStackTrace();
+				}
+			}
+			
+			if(Category.getSelectedItem().toString() == "건물") { //건물 테이블 삭제
+				Vector<String> delete_building_id = new Vector<String>();
+				
+				try {
+					String buildingId = model.getColumnName(1);
+					
+					if(buildingId == "building id") {
+						for(int i = 0; i < table.getRowCount(); i++) {
+							if(table.getValueAt(i, 0) == Boolean.TRUE) {
+								delete_building_id.add((String) table.getValueAt(i, 1));
+							}
+						}
+						
+						for(int i = 0; i < delete_building_id.size(); i++) {
+							for(int k = 0; k < model.getRowCount(); k++) {
+								if(table.getValueAt(k, 0) == Boolean.TRUE) {
+									model.removeRow(k);
+								}
+							}
+						}
+						
+						for(int i = 0; i < delete_building_id.size(); i++) {
+							String deleteStmt = "DELETE FROM DB2022_BUILDING WHERE building_id = ?";
+							PreparedStatement p = conn.prepareStatement(deleteStmt);
+							p.clearParameters();
+							p.setString(1, String.valueOf(delete_building_id.get(i)));
+							p.executeUpdate();
+						}
+					}
+		
+				} catch (SQLException e1) {
+				System.out.println("actionPerformed err : " + e1);
+				e1.printStackTrace();
+				}
+			}
+			
+			if(Category.getSelectedItem().toString() == "매물") { //매물 테이블 삭제
+				Vector<String> delete_sale_id = new Vector<String>();
+				
+				try {
+					String PId = model.getColumnName(1);
+					
+					if(PId == "Pid") {
+						for(int i = 0; i < table.getRowCount(); i++) {
+							if(table.getValueAt(i, 0) == Boolean.TRUE) {
+								delete_sale_id.add((String) table.getValueAt(i, 1));
+							}
+						}
+						
+						for(int i = 0; i < delete_sale_id.size(); i++) {
+							for(int k = 0; k < model.getRowCount(); k++) {
+								if(table.getValueAt(k, 0) == Boolean.TRUE) {
+									model.removeRow(k);
+								}
+							}
+						}
+						
+						for(int i = 0; i < delete_sale_id.size(); i++) {
+							String deleteStmt = "DELETE FROM DB2022_SALE WHERE Pid = ?";
+							PreparedStatement p = conn.prepareStatement(deleteStmt);
+							p.clearParameters();
+							p.setString(1, String.valueOf(delete_sale_id.get(i)));
+							p.executeUpdate();
+						}
+					}
+		
+				} catch (SQLException e1) {
+				System.out.println("actionPerformed err : " + e1);
+				e1.printStackTrace();
+				}
+			}
+			
+			panel = new JPanel();
+			ScPane = new JScrollPane(table);
 			ScPane.setPreferredSize(new Dimension(650, 200));
 			panel.add(ScPane);
 			add(panel, BorderLayout.CENTER);
