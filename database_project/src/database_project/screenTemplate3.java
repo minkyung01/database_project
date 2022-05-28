@@ -13,10 +13,10 @@ import javax.swing.table.TableModel;
 public class screenTemplate3 extends JFrame implements ActionListener{
 	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost/db2022team11";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/db2022team11";
 	
-	static final String USER = "DBTeam11";
-	static final String PASS = "DBTeam11";
+	static final String USER = "DB2022Team11";
+	static final String PASS = "DB2022Team11";
 	
 	public Connection conn;
 	public Statement s;
@@ -51,6 +51,7 @@ public class screenTemplate3 extends JFrame implements ActionListener{
 		msg.setFont(font);
 		Category.setFont(font);
 		Show_Button.setFont(font);
+		Delete_Button.setFont(font);
 		
 		ComboBoxPanel.add(msg);
 		ComboBoxPanel.add(Category);
