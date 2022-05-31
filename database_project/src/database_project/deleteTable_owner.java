@@ -10,7 +10,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-public class screenTemplate4 extends JFrame implements ActionListener{
+public class deleteTable_owner extends JFrame implements ActionListener {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/db2022team11";
 	
@@ -28,8 +28,8 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 	
 	Font font = new Font("아임크리수진", Font.PLAIN, 12);
 	
-	private JComboBox Category; //열람할 테이블 선택하는 콤보버튼
-	private JButton Show_Button = new JButton("확인");
+	private JButton Show_Button = new JButton("집주인 테이블 보기");
+	private JButton Delete_Button = new JButton("선택한 데이터 삭제");
 	
 	//테이블
 	private Vector<String> Head = new Vector<String>();
@@ -38,20 +38,14 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 	private static final int BOOLEAN_COLUMN = 0;
 	
 	//생성자
-	public screenTemplate4() {
+	public deleteTable_owner() {
 		//콤보박스
 		JPanel ComboBoxPanel = new JPanel();
-		String[] category = {"지역", "매물", "부동산", "건물", "집주인"}; //열람할 테이블 선택
-		Category = new JComboBox(category);
-		ComboBoxPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel msg = new JLabel("열람하고자 하는 테이블을 선택하세요: ");
+		ComboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		msg.setFont(font);
-		Category.setFont(font);
 		Show_Button.setFont(font);
+		Delete_Button.setFont(font);
 		
-		ComboBoxPanel.add(msg);
-		ComboBoxPanel.add(Category);
 		ComboBoxPanel.add(Show_Button);
 		
 		//전체 layout
@@ -64,6 +58,7 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 		
 		JPanel Bottom = new JPanel();
 		Bottom.setLayout(new BoxLayout(Bottom, BoxLayout.X_AXIS));
+		Bottom.add(Delete_Button);
 		
 		JPanel ShowVertical = new JPanel();
 		ShowVertical.setLayout(new BoxLayout(ShowVertical, BoxLayout.Y_AXIS));
@@ -74,6 +69,7 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 		add(ShowVertical, BorderLayout.SOUTH);
 		
 		Show_Button.addActionListener(this);
+		Delete_Button.addActionListener(this);
 		
 		//기본 설정
 		setTitle("부동산 매물 DB [어쩔DB]");
@@ -104,65 +100,21 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 		
 		// ----------- 구현 ----------- //
 		
-		String t = ""; //table명
-		
 		if (count == 1) { //초기화 코드
 			me.remove(panel);
 			revalidate();
 		}
 		
-		// ----------- 확인 ----------- //
+		// ----------- 보기 ----------- //
 		
-		if (e.getSource() == Show_Button) { //확인 버튼 눌렀을 때
+		if (e.getSource() == Show_Button) { //보기 버튼 눌렀을 때
 			Head.clear();
 			Head.add("선택");
-			String stmt = "";
+			String stmt = "SELECT * FROM DB2022_OWNER";
 			
-			if(Category.getSelectedItem().toString() == "지역") { //지역 테이블 보여주기
-				Head.add("area id");
-				Head.add("구");
-				Head.add("동");
-				stmt = "SELECT * FROM DB2022_AREA";
-				t = "DB2022_AREA";
-			}
-			else if(Category.getSelectedItem().toString() == "매물") { //매물 테이블 보여주기
-				Head.add("Pid");
-				Head.add("agency id");
-				Head.add("owner id");
-				Head.add("area id");
-				Head.add("rent type");
-				Head.add("price");
-				Head.add("deposit");
-				Head.add("sale date");
-				Head.add("building id");
-				Head.add("address");
-				stmt = "SELECT * FROM DB2022_SALE";
-				t = "DB2022_SALE";
-			}
-			else if(Category.getSelectedItem().toString() == "부동산") { //부동산 테이블 보여주기
-				Head.add("agency id");
-				Head.add("agency name");
-				Head.add("agency address");
-				Head.add("agency number");
-				Head.add("area id");
-				stmt = "SELECT * FROM DB2022_AGENCY";
-				t = "DB2022_AGENCY";
-			}
-			else if(Category.getSelectedItem().toString() == "건물") { //건물 테이블 보여주기
-				Head.add("building id");
-				Head.add("building name");
-				Head.add("building type");
-				Head.add("area id");
-				stmt = "SELECT * FROM DB2022_BUILDING";
-				t = "DB2022_BUILDING";
-			}
-			else if(Category.getSelectedItem().toString() == "집주인") { //집주인 테이블 보여주기
-				Head.add("owner id");
-				Head.add("owner name");
-				Head.add("owner number");
-				stmt = "SELECT * FROM DB2022_OWNER";
-				t = "DB2022_OWNER";
-			}
+			Head.add("owner id");
+			Head.add("owner name");
+			Head.add("owner number");
 			
 			model = new DefaultTableModel(Head, 0);
 			table = new JTable(model) {
@@ -205,6 +157,51 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 			add(panel, BorderLayout.CENTER);
 			revalidate();
 		}
+		
+		// ----------- 삭제 ----------- //
+		
+		if(e.getSource() == Delete_Button) { //삭제 버튼 눌렀을 때
+			Vector<String> delete_owner_id = new Vector<String>();
+			
+			try {
+				String ownerId = model.getColumnName(1);
+				
+				if(ownerId == "owner id") {
+					for(int i = 0; i < table.getRowCount(); i++) {
+						if(table.getValueAt(i, 0) == Boolean.TRUE) {
+							delete_owner_id.add((String) table.getValueAt(i, 1));
+						}
+					}
+					
+					for(int i = 0; i < delete_owner_id.size(); i++) {
+						for(int k = 0; k < model.getRowCount(); k++) {
+							if(table.getValueAt(k, 0) == Boolean.TRUE) {
+								model.removeRow(k);
+							}
+						}
+					}
+					
+					for(int i = 0; i < delete_owner_id.size(); i++) {
+						String deleteStmt = "DELETE FROM DB2022_OWNER WHERE owner_id = ?";
+						PreparedStatement p = conn.prepareStatement(deleteStmt);
+						p.clearParameters();
+						p.setString(1, String.valueOf(delete_owner_id.get(i)));
+						p.executeUpdate();
+					}
+				}
+	
+			} catch (SQLException e1) {
+			System.out.println("actionPerformed err : " + e1);
+			e1.printStackTrace();
+			}
+			
+			panel = new JPanel();
+			ScPane = new JScrollPane(table);
+			ScPane.setPreferredSize(new Dimension(650, 200));
+			panel.add(ScPane);
+			add(panel, BorderLayout.CENTER);
+			revalidate();
+		}
 	}
 	
 	public class CheckBoxModelListener implements TableModelListener {
@@ -219,10 +216,9 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 			}
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new screenTemplate4();
+		new deleteTable_owner();
 	}
-
 }

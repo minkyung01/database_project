@@ -10,7 +10,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-public class screenTemplate4 extends JFrame implements ActionListener{
+public class showTable_user extends JFrame implements ActionListener {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/db2022team11";
 	
@@ -38,7 +38,7 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 	private static final int BOOLEAN_COLUMN = 0;
 	
 	//생성자
-	public screenTemplate4() {
+	public showTable_user() {
 		//콤보박스
 		JPanel ComboBoxPanel = new JPanel();
 		String[] category = {"지역", "매물", "부동산", "건물", "집주인"}; //열람할 테이블 선택
@@ -222,7 +222,6 @@ public class screenTemplate4 extends JFrame implements ActionListener{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new screenTemplate4();
+		new showTable_user();
 	}
-
 }
