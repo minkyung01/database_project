@@ -104,8 +104,6 @@ public class showTable_user extends JFrame implements ActionListener {
 		
 		// ----------- 구현 ----------- //
 		
-		String t = ""; //table명
-		
 		if (count == 1) { //초기화 코드
 			me.remove(panel);
 			revalidate();
@@ -123,7 +121,6 @@ public class showTable_user extends JFrame implements ActionListener {
 				Head.add("구");
 				Head.add("동");
 				stmt = "SELECT * FROM DB2022_AREA";
-				t = "DB2022_AREA";
 			}
 			else if(Category.getSelectedItem().toString() == "매물") { //매물 테이블 보여주기
 				Head.add("Pid");
@@ -137,7 +134,6 @@ public class showTable_user extends JFrame implements ActionListener {
 				Head.add("building id");
 				Head.add("address");
 				stmt = "SELECT * FROM DB2022_SALE";
-				t = "DB2022_SALE";
 			}
 			else if(Category.getSelectedItem().toString() == "부동산") { //부동산 테이블 보여주기
 				Head.add("agency id");
@@ -146,7 +142,6 @@ public class showTable_user extends JFrame implements ActionListener {
 				Head.add("agency number");
 				Head.add("area id");
 				stmt = "SELECT * FROM DB2022_AGENCY";
-				t = "DB2022_AGENCY";
 			}
 			else if(Category.getSelectedItem().toString() == "건물") { //건물 테이블 보여주기
 				Head.add("building id");
@@ -154,14 +149,12 @@ public class showTable_user extends JFrame implements ActionListener {
 				Head.add("building type");
 				Head.add("area id");
 				stmt = "SELECT * FROM DB2022_BUILDING";
-				t = "DB2022_BUILDING";
 			}
 			else if(Category.getSelectedItem().toString() == "집주인") { //집주인 테이블 보여주기
 				Head.add("owner id");
 				Head.add("owner name");
 				Head.add("owner number");
 				stmt = "SELECT * FROM DB2022_OWNER";
-				t = "DB2022_OWNER";
 			}
 			
 			model = new DefaultTableModel(Head, 0);
