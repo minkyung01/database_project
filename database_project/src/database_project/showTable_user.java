@@ -29,7 +29,7 @@ public class showTable_user extends JFrame implements ActionListener {
 	Font font = new Font("아임크리수진", Font.PLAIN, 12);
 	
 	private JComboBox Category; //열람할 테이블 선택하는 콤보버튼
-	private JButton Show_Button = new JButton("확인");
+	private RoundedButton Show_Button = new RoundedButton("확인");
 	
 	//테이블
 	private Vector<String> Head = new Vector<String>();

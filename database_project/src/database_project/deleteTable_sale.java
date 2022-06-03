@@ -28,8 +28,8 @@ public class deleteTable_sale extends JFrame implements ActionListener {
 	
 	Font font = new Font("아임크리수진", Font.PLAIN, 12);
 	
-	private JButton Show_Button = new JButton("매물 테이블 보기");
-	private JButton Delete_Button = new JButton("선택한 데이터 삭제");
+	private RoundedButton Show_Button = new RoundedButton("매물 테이블 보기");
+	private RoundedButton Delete_Button = new RoundedButton("선택한 데이터 삭제");
 	
 	//테이블
 	private Vector<String> Head = new Vector<String>();
