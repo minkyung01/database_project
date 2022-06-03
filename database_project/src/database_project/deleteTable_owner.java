@@ -202,6 +202,7 @@ public class deleteTable_owner extends JFrame implements ActionListener {
 			add(panel, BorderLayout.CENTER);
 			revalidate();
 		}
+		
 	}
 	
 	public class CheckBoxModelListener implements TableModelListener {

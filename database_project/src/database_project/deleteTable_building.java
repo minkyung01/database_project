@@ -10,8 +10,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import database_project.deleteTable_sale.CheckBoxModelListener;
-
 public class deleteTable_building extends JFrame implements ActionListener {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/db2022team11";
