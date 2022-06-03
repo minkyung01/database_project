@@ -183,10 +183,15 @@ public class deleteTable_owner extends JFrame implements ActionListener {
 					
 					for(int i = 0; i < delete_owner_id.size(); i++) {
 						String deleteStmt = "DELETE FROM DB2022_OWNER WHERE owner_id = ?";
+						String deleteStmt2 = "DELETE FROM DB2022_SALE WHERE owner_id = ?";
 						PreparedStatement p = conn.prepareStatement(deleteStmt);
+						PreparedStatement p2 = conn.prepareStatement(deleteStmt2);
 						p.clearParameters();
+						p2.clearParameters();
 						p.setString(1, String.valueOf(delete_owner_id.get(i)));
+						p2.setString(1, String.valueOf(delete_owner_id.get(i)));
 						p.executeUpdate();
+						p2.executeUpdate();
 					}
 				}
 	
