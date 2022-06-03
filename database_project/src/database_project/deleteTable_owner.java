@@ -72,8 +72,8 @@ public class deleteTable_owner extends JFrame implements ActionListener {
 		Delete_Button.addActionListener(this);
 		
 		//기본 설정
-		setTitle("부동산 매물 DB [어쩔DB]");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("[어쩔DB] 집주인 삭제");
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setSize(700, 700);
 		setLocationRelativeTo(null);
 		setVisible(true);
