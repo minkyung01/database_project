@@ -14,7 +14,7 @@ public class RoundedButton extends JButton {
       protected void paintComponent(Graphics g) {
          Color c=new Color(0,0,0); 
          Color o=new Color(255,255,255); 
-         Font f1 = new Font("����ũ������", Font.PLAIN, 13); 
+         Font f1 = new Font("아임크리수진", Font.PLAIN, 13); 
          
          int width = getWidth(); 
          int height = getHeight(); 

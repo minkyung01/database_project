@@ -184,7 +184,7 @@ public class deleteTable_building extends JFrame implements ActionListener {
 					
 					for(int i = 0; i < delete_building_id.size(); i++) {
 						String deleteStmt = "DELETE FROM DB2022_SALE WHERE building_id = ?";
-						String deleteStmt2 = "DELETE FROM DB2022_BUILDING WHERE building_id = ?";
+						String deleteStmt2 = "DELETE FROM DB2022_BUILDING WHERE building_id = ?"; 
 						PreparedStatement p = conn.prepareStatement(deleteStmt);
 						PreparedStatement p2 = conn.prepareStatement(deleteStmt2);
 						p.clearParameters();
